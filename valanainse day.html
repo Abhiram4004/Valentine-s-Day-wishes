@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unlock My Heart ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, #ff4e8b, #ff9ecf);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
+    text-align: center;
+    transition: background 1.5s ease-in-out;
+}
+
+/* Background after unlock */
+.unlocked {
+    background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url("bg.jpg") center/cover no-repeat;
+    animation: slowZoom 20s ease-in-out infinite alternate;
+}
+
+/* Slow zoom */
+@keyframes slowZoom {
+    0% { background-size: 100%; }
+    100% { background-size: 110%; }
+}
+
+.container {
+    position: relative;
+    background: rgba(255,255,255,0.12);
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 40px rgba(255,0,100,0.7);
+    max-width: 380px;
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1.5s ease;
+}
+
+.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Center image behind typing text */
+.center-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("center.jpg") center/cover no-repeat;
+    opacity: 0.25;
+    z-index: -1;
+    filter: blur(3px);
+}
+
+h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 34px;
+}
+
+.glow {
+    text-shadow: 0 0 10px #fff,
+                 0 0 20px #ff4e8b,
+                 0 0 40px #ff99cc;
+}
+
+.heart {
+    font-size: 80px;
+    animation: beat 1s infinite;
+}
+
+@keyframes beat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+input {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    margin-top: 20px;
+    width: 200px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    margin-top: 20px;
+    background: white;
+    color: #ff4e8b;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+#typedText {
+    font-size: 20px;
+    margin-top: 20px;
+    min-height: 150px;
+}
+
+.rose {
+    position: absolute;
+    font-size: 24px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh); opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+
+/* BIG Instagram-style Heart */
+.big-love {
+    position: fixed;
+    font-size: 120px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    animation: loveFloat 2s ease forwards;
+    pointer-events: none;
+    z-index: 999;
+}
+
+@keyframes loveFloat {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -150%) scale(1.2);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container show" id="lockScreen">
+    <div class="heart">🔒❤️</div>
+    <h2>Unlock My Heart 💌</h2>
+    <input type="password" id="password" placeholder="Password">
+    <br>
+    <button onclick="unlock()">Unlock 💖</button>
+</div>
+
+<div class="container hidden" id="loveScreen">
+    <div class="center-bg"></div>
+    <div class="heart">❤️</div>
+    <h2 class="glow">Happy Valentine's Day My Love 💘</h2>
+    <div id="typedText" class="glow"></div>
+</div>
+
+<audio id="bgMusic" src="music.mp3" preload="auto"></audio>
+
+<script>
+
+const message =
+"I love you bangarammmmm ❤️‍🩹🫶🏻\n\n" +
+"Forever and ever and ever 🥺🫂\n\n" +
+"From the moment you came into my life,\n" +
+"everything became beautiful 💕\n\n" +
+"No matter what happens,\n" +
+"I will always choose you 💖";
+
+function unlock() {
+    var pass = document.getElementById("password").value;
+
+    if(pass === "9th May") {
+
+        document.getElementById("lockScreen").classList.add("hidden");
+
+        const loveScreen = document.getElementById("loveScreen");
+        loveScreen.classList.remove("hidden");
+
+        setTimeout(() => {
+            loveScreen.classList.add("show");
+        }, 100);
+
+        document.body.classList.add("unlocked");
+
+        showBigLove();   // Instagram heart effect
+
+        var music = document.getElementById("bgMusic");
+        music.volume = 0.6;
+        music.play().catch(function(){});
+
+        typeEffect();
+        createRoses();
+
+    } else {
+        alert("Wrong password 💔 Try again 😘");
+    }
+}
+
+function showBigLove() {
+    const heart = document.createElement("div");
+    heart.classList.add("big-love");
+    heart.innerHTML = "❤️";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 2000);
+}
+
+function typeEffect() {
+    let i = 0;
+    const speed = 60;
+    const typedText = document.getElementById("typedText");
+
+    function typing() {
+        if (i < message.length) {
+            if(message.charAt(i) === "\n"){
+                typedText.innerHTML += "<br>";
+            } else {
+                typedText.innerHTML += message.charAt(i);
+            }
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+
+    typing();
+}
+
+function createRoses() {
+    setInterval(function() {
+        var rose = document.createElement("div");
+        rose.classList.add("rose");
+        rose.innerHTML = "🌹";
+        rose.style.left = Math.random() * 100 + "vw";
+        rose.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        document.body.appendChild(rose);
+
+        setTimeout(function() {
+            rose.remove();
+        }, 6000);
+    }, 400);
+}
+
+</script>
+
+</body>
+</html>
